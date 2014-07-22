@@ -1,0 +1,7 @@
+{
+  "project.name"        : "libphutil-haskell",
+  "repository.callsign" : "PHUH",
+  "phabricator.uri"     : "https://phabricator.haskell.org",
+
+  "load": [ "phabricator/src" ]
+}
