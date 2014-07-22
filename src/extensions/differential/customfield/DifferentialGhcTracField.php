@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Extends Differential with a 'Trac Issues' field for GHC.
+ */
 final class DifferentialGhcTracField
   extends DifferentialStoredCustomField {
 
