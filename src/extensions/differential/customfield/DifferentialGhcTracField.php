@@ -159,7 +159,8 @@ final class DifferentialGhcTracField
             $type,
             pht('Invalid issue reference'),
             pht('References to GHC Trac tickets may only take the form '.
-                '`#XYZ` where `XYZ` may refer to an issue number.'),
+                '`#XYZ` where `XYZ` refers to an issue number, but you '.
+                'specified "%s"', $id),
             $xaction);
         }
       }
