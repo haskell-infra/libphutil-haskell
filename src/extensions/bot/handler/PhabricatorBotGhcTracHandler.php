@@ -22,7 +22,6 @@ final class PhabricatorBotGhcTracHandler extends PhabricatorBotHandler {
 
         $text = $message->getBody();
         $tickets = array();
-        $output  = array();
         $matches = null;
 
         $pattern =
