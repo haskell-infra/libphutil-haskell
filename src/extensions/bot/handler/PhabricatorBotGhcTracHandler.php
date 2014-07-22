@@ -27,9 +27,7 @@ final class PhabricatorBotGhcTracHandler extends PhabricatorBotHandler {
 
         $pattern =
           '@'.
-          '(?<!/)(?:^|\b)'.
           '#(\d+)'.
-          '(?:\b|$)'.
           '@';
 
         if (preg_match_all($pattern, $text, $matches, PREG_SET_ORDER)) {
