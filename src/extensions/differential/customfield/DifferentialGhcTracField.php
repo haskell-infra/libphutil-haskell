@@ -205,13 +205,14 @@ final class DifferentialGhcTracField
       }
     }
 
-    return phutil_implode_html(phutil_tag('br'), $links);
-  }
-
-  // Private utilities
-  private function isGhcRepository() {
-    $repo = $this->getObject()->getRepository();
-    return ($repo->getMonogram() === 'rGHC');
+    // Return empty array() if there aren't links, so we don't stick empty HTML
+    // into the field causing it to always render.
+    if (empty($links)) {
+      return $links;
+    }
+    else {
+      return phutil_implode_html(phutil_tag('br'), $links);
+    }
   }
 }
 
