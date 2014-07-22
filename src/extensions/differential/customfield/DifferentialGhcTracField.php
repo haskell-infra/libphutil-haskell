@@ -138,18 +138,6 @@ final class DifferentialGhcTracField
         continue;
       }
 
-      // Ensure we're in the GHC repository
-      // if (!$this->isGhcRepository()) {
-      //   $this->error = pht('Invalid');
-      //   $errors[] = new PhabricatorApplicationTransactionValidationError(
-      //     $type,
-      //     pht('Disallowed issue reference'),
-      //     pht('References to GHC Trac tickets may only be done in the GHC '.
-      //         'repository.'),
-      //     $xaction);
-      //   continue;
-      // }
-
       // Validate issue references
       foreach ($new as $id) {
         if (!preg_match('/#(\d+)/', $id)) {
@@ -259,20 +247,12 @@ final class DifferentialGhcTracField
 
   /* -- Private APIs -------------------------------------------------------- */
   private function isGhcRepository() {
-    try {
-
-      $repo = $this->getObject()->getRepository();
-      if ($repo === null) {
-        return false;
-      }
-
-      return ($repo->getMonogram() === 'rGHC');
-
-    } catch (PhabricatorDataNotAttachedException $ex) {
-      // The repository may not have been set for the revision, but Phab
-      // can still figure out where it goes. Reject this case.
+    $repo = $this->getObject()->getRepository();
+    if ($repo === null) {
       return false;
     }
+
+    return ($repo->getMonogram() === 'rGHC');
   }
 }
 
