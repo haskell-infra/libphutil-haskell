@@ -10,15 +10,11 @@ final class DifferentialGhcTracField
   }
 
   public function getFieldName() {
-    return pht('Trac Issues');
+    return pht('GHC Trac');
   }
 
   public function getFieldDescription() {
     return pht('Lists associated GHC Trac issues.');
-  }
-
-  public function shouldDisableByDefault() {
-    return true;
   }
 
   public function canDisableField() {
@@ -26,7 +22,7 @@ final class DifferentialGhcTracField
   }
 
   public function shouldAppearInPropertyView() {
-    return true;
+    return $this->isGhcRepository();
   }
 
   public function shouldAppearInEditView() {
@@ -182,7 +178,7 @@ final class DifferentialGhcTracField
   }
 
   public function renderPropertyViewLabel() {
-    return $this->getFieldName();
+    return pht('Trac Issues');
   }
 
   public function renderCommitMessageValue(array $handles) {
@@ -210,6 +206,12 @@ final class DifferentialGhcTracField
     }
 
     return phutil_implode_html(phutil_tag('br'), $links);
+  }
+
+  // Private utilities
+  private function isGhcRepository() {
+    $repo = $this->getObject()->getRepository();
+    return ($repo->getMonogram() === 'rGHC');
   }
 }
 
