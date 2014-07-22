@@ -15,10 +15,10 @@ final class PhabricatorBotGhcTracHandler extends PhabricatorBotHandler {
     switch ($message->getCommand()) {
       case 'MESSAGE':
         $target_name = $message->getTarget()->getName();
-        if ($target_name !== '#ghc') {
+        // if ($target_name !== '#ghc') {
           // Don't do this in non-GHC channels, as it's probably annoying.
-          break;
-        }
+        //   break;
+        // }
 
         $text = $message->getBody();
         $tickets = array();
@@ -55,9 +55,31 @@ final class PhabricatorBotGhcTracHandler extends PhabricatorBotHandler {
             continue;
           }
 
-          $desc  = '#'.$ticket.': ';
-          $desc .= 'TODO FIXME - ';
-          $desc .= 'https://ghc.haskell.org/trac/ghc/ticket/'.$ticket;
+          // Grab the ticket HTTPS content
+          $title = '(Description unavailable)';
+          $url   = 'https://ghc.haskell.org/trac/ghc/ticket/'.$ticket;
+          $html  = HTTPSFuture::loadContent($url);
+
+          if ($html) {
+
+            // Match the trac title span of the ticket. This is horrible
+            // and awful and bad.
+            $pattern =
+              '@'.
+              '<h1 id="trac-ticket-title" class="searchable">\s+'.
+              '<span class="summary">'.
+              '(.*)'.
+              '</span>\s+'.
+              '</h1>'.
+              '@';
+
+            $matches = null;
+            if (preg_match($pattern, $html, $matches)) {
+              $title = $matches[1];
+            }
+          }
+
+          $desc  = '#'.$ticket.': '.$title.' - '.$url;
 
           $this->recentlyMentioned[$target_name][$ticket] = time();
           $this->replyTo($message, pht($desc));
