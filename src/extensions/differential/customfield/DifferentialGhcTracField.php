@@ -1,25 +1,21 @@
 <?php
 
 final class DifferentialGhcTracField
-  extends DifferentialCustomField {
+  extends DifferentialStoredCustomField {
 
   public function getFieldKey() {
-    return 'differential:ghctrac';
+    return 'differential:ghc-trac';
   }
 
   public function getFieldName() {
-    return pht('Trac');
-  }
-
-  public function renderPropertyViewLabel() {
-    return $this->getFieldName();
+    return pht('Trac Issues');
   }
 
   public function getFieldDescription() {
-    return pht('Reference to a GHC Trac issue.');
+    return pht('Lists associated GHC Trac issues.');
   }
 
-  public function isFieldEnabled() {
+  public function shouldDisableByDefault() {
     return true;
   }
 
@@ -43,6 +39,14 @@ final class DifferentialGhcTracField
     return true;
   }
 
+  public function shouldAppearInConduitDictionary() {
+    return true;
+  }
+
+  public function shouldOverwriteWhenCommitMessageIsEdited() {
+    return true;
+  }
+
   public function getCommitMessageLabels() {
     return array(
       'Trac',
@@ -51,8 +55,159 @@ final class DifferentialGhcTracField
     );
   }
 
+  // Application transaction notifications
+  public function shouldAppearInApplicationTransactions() {
+    return true;
+  }
+
+  public function getOldValueForApplicationTransactions() {
+    return array_unique(nonempty($this->getValue(), array()));
+  }
+
+  public function getNewValueForApplicationTransactions() {
+    return array_unique(nonempty($this->getValue(), array()));
+  }
+
+  public function getApplicationTransactionTitle(
+    PhabricatorApplicationTransaction $xaction) {
+    $author_phid = $xaction->getAuthorPHID();
+    $old = $xaction->getOldValue();
+    $new = $xaction->getNewValue();
+
+    return pht(
+      '%s updated the Trac tickets for this revision.',
+      $xaction->renderHandleLink($author_phid));
+  }
+
+  public function getApplicationTransactionTitleForFeed(
+    PhabricatorApplicationTransaction $xaction,
+    PhabricatorFeedStory $story) {
+
+    $object_phid = $xaction->getObjectPHID();
+    $author_phid = $xaction->getAuthorPHID();
+    $old = $xaction->getOldValue();
+    $new = $xaction->getNewValue();
+
+    return pht(
+      '%s updated the Trac tickets for %s.',
+      $xaction->renderHandleLink($author_phid),
+      $xaction->renderHandleLink($object_phid));
+  }
+
+  public function validateApplicationTransactions(
+    PhabricatorApplicationTransactionEditor $editor,
+    $type,
+    array $xactions) {
+
+    $this->error = null;
+    $errors = parent::validateApplicationTransactions(
+      $editor,
+      $type,
+      $xactions);
+
+    foreach ($xactions as $xaction) {
+      $old = $xaction->getOldValue();
+      $new = $xaction->getNewValue();
+
+      $add = array_diff($new, $old);
+      if (!$add) {
+        continue;
+      }
+
+      foreach ($new as $id) {
+        if (!preg_match('/#(\d+)/', $id)) {
+          $this->error = pht('Invalid');
+          $errors[] = new PhabricatorApplicationTransactionValidationError(
+            $type,
+            pht('Invalid issue'),
+            pht('References to trac tickets may only take the form `#XXXX` '.
+                'where XXXX are decimal values'),
+            $xaction);
+        }
+      }
+    }
+
+    return $errors;
+  }
+
+  // Storage handling
+  public function readValueFromRequest(AphrontRequest $request) {
+    $this->setValue($request->getStrList($this->getFieldKey()));
+    return $this;
+  }
+
+  public function getValueForStorage() {
+    return json_encode($this->getValue());
+  }
+
+  public function setValueFromStorage($value) {
+    try {
+      $this->setValue(phutil_json_decode($value));
+    } catch (PhutilJSONParserException $ex) {
+      $this->setValue(array());
+    }
+    return $this;
+  }
+
+  // Parse handling
+  public function parseValueFromCommitMessage($value) {
+    return preg_split('/[\s,]+/', $value, $limit = -1, PREG_SPLIT_NO_EMPTY);
+  }
+
+  public function readValueFromCommitMessage($value) {
+    $this->setValue($value);
+    return $this;
+  }
+
+  public function validateCommitMessageValue($value) {
+    foreach ($value as $id) {
+      if (!preg_match('/#(\d+)/', $id)) {
+        throw new DifferentialFieldValidationException(
+          pht("The ID '$id' is not in the form #<digits>."));
+      }
+    }
+  }
+
+  // Rendering, etc
+  public function renderEditControl(array $handles) {
+    return id(new AphrontFormTextControl())
+      ->setLabel(pht('Trac Issues'))
+      ->setCaption(
+        pht('Example: %s', phutil_tag('tt', array(), '#7602, #2345')))
+      ->setName($this->getFieldKey())
+      ->setValue(implode(', ', nonempty($this->getValue(), array())))
+      ->setError($this->error);
+  }
+
+  public function renderPropertyViewLabel() {
+    return $this->getFieldName();
+  }
+
+  public function renderCommitMessageValue(array $handles) {
+    $value = $this->getValue();
+    if (!$value) {
+      return null;
+    }
+    return implode(', ', $value);
+  }
+
   public function renderPropertyViewValue(array $handles) {
-    return null;
+    $links = array();
+    $match = null;
+
+    foreach ($this->getValue() as $ref) {
+      if (!preg_match('/#(\d+)/', $ref, $match)) {
+        $links[] = pht($ref);
+      }
+      else {
+        $num = $match[1];
+        $links[] = phutil_tag('a', array(
+          'href' => 'https://ghc.haskell.org/trac/ghc/ticket/'.$num,
+        ), $ref);
+      }
+    }
+
+    return phutil_implode_html(phutil_tag('br'), $links);
   }
 }
 

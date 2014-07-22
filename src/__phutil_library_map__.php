@@ -14,7 +14,7 @@ phutil_register_library_map(array(
   ),
   'function' => array(),
   'xmap' => array(
-    'DifferentialGhcTracField' => 'DifferentialCustomField',
+    'DifferentialGhcTracField' => 'DifferentialStoredCustomField',
     'PhabricatorBotGhcTracHandler' => 'PhabricatorBotHandler',
   ),
 ));
