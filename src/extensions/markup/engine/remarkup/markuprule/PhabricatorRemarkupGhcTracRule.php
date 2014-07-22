@@ -23,7 +23,7 @@ final class PhabricatorRemarkupGhcTracRule
 
   protected function applyCallback($matches) {
     return hsprintf(
-      '<a href="https://ghc.haskell.org/trac/ghc/ticket/%s">#%s</a>',
+      '<strong>#%s</strong>',
       $matches[1]);
   }
 }
