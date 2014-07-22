@@ -193,6 +193,11 @@ final class DifferentialGhcTracField
     $links = array();
     $match = null;
 
+    // Don't show for non-GHC repositories.
+    if (!$this->isGhcRepository()) {
+      return null;
+    }
+
     foreach ($this->getValue() as $ref) {
       if (!preg_match('/#(\d+)/', $ref, $match)) {
         $links[] = pht($ref);
@@ -205,14 +210,22 @@ final class DifferentialGhcTracField
       }
     }
 
-    // Return empty array() if there aren't links, so we don't stick empty HTML
-    // into the field causing it to always render.
+    // Return null if there aren't links, so we don't stick empty HTML into the
+    // field causing it to always render.
     if (empty($links)) {
-      return $links;
+      return null;
     }
     else {
       return phutil_implode_html(phutil_tag('br'), $links);
     }
+  }
+
+  private function isGhcRepository() {
+    $repo = $this->getObject()->getRepository();
+    if ($repo === null) {
+      return false;
+    }
+    return ($repo->getMonogram() === 'rGHC');
   }
 }
 
