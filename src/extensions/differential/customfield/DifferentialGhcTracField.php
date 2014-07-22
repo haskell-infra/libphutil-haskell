@@ -141,7 +141,7 @@ final class DifferentialGhcTracField
 
       foreach ($new as $id) {
         if (!preg_match('/#(\d+)/', $id)) {
-          $this->error = pht('Invalid');
+          $this->error = pht('Invalid issue reference');
           $errors[] = new PhabricatorApplicationTransactionValidationError(
             $type,
             pht('Invalid issue reference'),
