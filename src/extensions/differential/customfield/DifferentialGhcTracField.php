@@ -66,8 +66,7 @@ final class DifferentialGhcTracField
   }
 
   public function shouldAppearInCommitMessageTemplate() {
-    // return true;
-    return false;
+    return true;
   }
 
   // Rendered when you run 'arc diff'
