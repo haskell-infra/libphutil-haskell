@@ -15,10 +15,10 @@ final class PhabricatorBotGhcTracHandler extends PhabricatorBotHandler {
     switch ($message->getCommand()) {
       case 'MESSAGE':
         $target_name = $message->getTarget()->getName();
-        // if ($target_name !== '#ghc') {
+        if ($target_name !== '#ghc') {
           // Don't do this in non-GHC channels, as it's probably annoying.
-        //   break;
-        // }
+          break;
+        }
 
         $text = $message->getBody();
         $tickets = array();
