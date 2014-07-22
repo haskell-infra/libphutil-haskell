@@ -148,7 +148,7 @@ final class DifferentialGhcTracField
           pht('References to GHC Trac tickets may only be done in the GHC '.
               'repository.'),
           $xaction);
-        break;
+        continue;
       }
 
       // Validate issue references
