@@ -15,20 +15,26 @@ final class PhabricatorRemarkupGhcTracRule
       return $text;
     }
 
-    return $this->replaceHTML(
-      '@#([1-9]\d*)@s',
-      array($this, 'applyCallback'),
+    return preg_replace_callback(
+      '/\B#(\d+)/',
+      array($this, 'markupInlineTracLink'),
       $text);
   }
 
-  protected function applyCallback($matches) {
-    $num = $matches[1];
-    $ref = '#'.$num;
+  public function markupInlineTracLink(array $matches) {
 
-    return $this->newTag('a', array(
-      'href' => 'https://ghc.haskell.org/trac/ghc/ticket/'.$num,
+    $uri = 'https://ghc.haskell.org/trac/ghc/ticket/'.$matches[1];
+    $ref = 'Trac #'.$matches[1];
+
+    $link = phutil_tag('a', array(
+      'href' => $uri,
+      'style' => 'font-weight: bold;',
     ), $ref);
+
+    $engine = $this->getEngine();
+    return $engine->storeText($link);
   }
+
 }
 
 // Local Variables:
