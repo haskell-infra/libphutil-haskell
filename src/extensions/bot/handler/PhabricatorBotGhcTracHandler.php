@@ -12,10 +12,9 @@ final class PhabricatorBotGhcTracHandler extends PhabricatorBotHandler {
   private $recentlyMentioned = array();
 
   public function receiveMessage(PhabricatorBotMessage $message) {
-    $target_name = $message->getTarget()->getName();
     switch ($message->getCommand()) {
       case 'MESSAGE':
-
+        $target_name = $message->getTarget()->getName();
         if ($target_name !== '#ghc') {
           // Don't do this in non-GHC channels, as it's probably annoying.
           break;
