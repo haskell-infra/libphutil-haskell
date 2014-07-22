@@ -65,6 +65,11 @@ final class DifferentialGhcTracField
     );
   }
 
+  public function shouldAppearInCommitMessageTemplate() {
+    // return true;
+    return false;
+  }
+
   // Rendered when you run 'arc diff'
   public function renderCommitMessageLabel() {
     return 'GHC Trac Issues';
