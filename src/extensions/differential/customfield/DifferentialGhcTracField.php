@@ -22,7 +22,7 @@ final class DifferentialGhcTracField
   }
 
   public function shouldAppearInPropertyView() {
-    return $this->isGhcRepository();
+    return true;
   }
 
   public function shouldAppearInEditView() {
