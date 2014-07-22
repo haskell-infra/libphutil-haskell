@@ -11,15 +11,15 @@ final class DifferentialGhcTracField
     return pht('Trac');
   }
 
+  public function renderPropertyViewLabel() {
+    return $this->getFieldName();
+  }
+
   public function getFieldDescription() {
     return pht('Reference to a GHC Trac issue.');
   }
 
-  public function shouldAppearInCommitMessage() {
-    return true;
-  }
-
-  public function shouldAllowEditInCommitMessage() {
+  public function isFieldEnabled() {
     return true;
   }
 
@@ -31,17 +31,28 @@ final class DifferentialGhcTracField
     return true;
   }
 
-  public function renderPropertyViewLabel() {
-    return $this->getFieldName();
+  public function shouldAppearInEditView() {
+    return true;
+  }
+
+  public function shouldAppearInCommitMessage() {
+    return true;
+  }
+
+  public function shouldAllowEditInCommitMessage() {
+    return true;
+  }
+
+  public function getCommitMessageLabels() {
+    return array(
+      'Trac',
+      'Trac Issue',
+      'Trac Issues',
+    );
   }
 
   public function renderPropertyViewValue(array $handles) {
-    $host = $this->getObject()->getActiveDiff()->getSourceMachine();
-    if (!$host) {
-      return null;
-    }
-
-    return $host;
+    return null;
   }
 }
 
