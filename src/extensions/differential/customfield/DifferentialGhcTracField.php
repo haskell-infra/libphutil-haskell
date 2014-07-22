@@ -139,16 +139,16 @@ final class DifferentialGhcTracField
       }
 
       // Ensure we're in the GHC repository
-      if (!$this->isGhcRepository()) {
-        $this->error = pht('Invalid');
-        $errors[] = new PhabricatorApplicationTransactionValidationError(
-          $type,
-          pht('Disallowed issue reference'),
-          pht('References to GHC Trac tickets may only be done in the GHC '.
-              'repository.'),
-          $xaction);
-        continue;
-      }
+      // if (!$this->isGhcRepository()) {
+      //   $this->error = pht('Invalid');
+      //   $errors[] = new PhabricatorApplicationTransactionValidationError(
+      //     $type,
+      //     pht('Disallowed issue reference'),
+      //     pht('References to GHC Trac tickets may only be done in the GHC '.
+      //         'repository.'),
+      //     $xaction);
+      //   continue;
+      // }
 
       // Validate issue references
       foreach ($new as $id) {
