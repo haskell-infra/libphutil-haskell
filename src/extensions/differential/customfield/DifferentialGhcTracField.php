@@ -260,11 +260,20 @@ final class DifferentialGhcTracField
 
   /* -- Private APIs -------------------------------------------------------- */
   private function isGhcRepository() {
-    $repo = $this->getObject()->getRepository();
-    if ($repo === null) {
+    try {
+
+      $repo = $this->getObject()->getRepository();
+      if ($repo === null) {
+        return false;
+      }
+
+      return ($repo->getMonogram() === 'rGHC');
+
+    } catch (PhabricatorDataNotAttachedException $ex) {
+      // The repository may not have been set for the revision, but Phab
+      // can still figure out where it goes. Reject this case.
       return false;
     }
-    return ($repo->getMonogram() === 'rGHC');
   }
 }
 
