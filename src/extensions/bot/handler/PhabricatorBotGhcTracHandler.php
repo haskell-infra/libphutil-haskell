@@ -15,10 +15,10 @@ final class PhabricatorBotGhcTracHandler extends PhabricatorBotHandler {
     switch ($message->getCommand()) {
       case 'MESSAGE':
         $target_name = $message->getTarget()->getName();
-        // if ($target_name !== '#ghc') {
+        if ($target_name !== '#ghc') {
           // Don't do this in non-GHC channels, as it's probably annoying.
-        //  break;
-        // }
+          break;
+        }
 
         $text = $message->getBody();
         $tickets = array();
@@ -31,9 +31,7 @@ final class PhabricatorBotGhcTracHandler extends PhabricatorBotHandler {
           '@';
 
         if (preg_match_all($pattern, $text, $matches, PREG_SET_ORDER)) {
-          phlog('dump: '.var_dump($matches));
           foreach ($matches as $match) {
-            phlog('match: '.var_dump($match).' and '.$match[1]);
             $tickets[$match[1]] =
               pht('https://ghc.haskell.org/trac/ghc/ticket/'.$match[1]);
           }
