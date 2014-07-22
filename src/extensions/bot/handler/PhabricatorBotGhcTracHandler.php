@@ -12,8 +12,15 @@ final class PhabricatorBotGhcTracHandler extends PhabricatorBotHandler {
   private $recentlyMentioned = array();
 
   public function receiveMessage(PhabricatorBotMessage $message) {
+    $target_name = $message->getTarget()->getName();
     switch ($message->getCommand()) {
       case 'MESSAGE':
+
+        if ($target_name !== '#ghc') {
+          // Don't do this in non-GHC channels, as it's probably annoying.
+          break;
+        }
+
         $text = $message->getBody();
         $tickets = array();
         $output  = array();
@@ -38,7 +45,6 @@ final class PhabricatorBotGhcTracHandler extends PhabricatorBotHandler {
           // Don't mention the same object more than once every 10 minutes
           // in public channels, so we avoid spamming the chat over and over
           // again for discsussions of a specific revision, for example.
-          $target_name = $message->getTarget()->getName();
           if (empty($this->recentlyMentioned[$target_name])) {
             $this->recentlyMentioned[$target_name] = array();
           }
