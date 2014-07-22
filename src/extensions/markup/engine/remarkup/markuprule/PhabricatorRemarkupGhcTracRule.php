@@ -22,9 +22,12 @@ final class PhabricatorRemarkupGhcTracRule
   }
 
   protected function applyCallback($matches) {
-    return hsprintf(
-      '<strong>#%s</strong>',
-      $matches[1]);
+    $num = $matches[1];
+    $ref = '#'.$num;
+
+    return pht($this->newTag('a', array(
+      'href' => 'https://ghc.haskell.org/trac/ghc/ticket/'.$num,
+    ), $ref));
   }
 }
 
