@@ -25,9 +25,9 @@ final class PhabricatorRemarkupGhcTracRule
     $num = $matches[1];
     $ref = '#'.$num;
 
-    return pht($this->newTag('a', array(
+    return $this->newTag('a', array(
       'href' => 'https://ghc.haskell.org/trac/ghc/ticket/'.$num,
-    ), $ref));
+    ), $ref);
   }
 }
 
