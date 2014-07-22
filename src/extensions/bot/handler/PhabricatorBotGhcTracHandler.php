@@ -32,8 +32,7 @@ final class PhabricatorBotGhcTracHandler extends PhabricatorBotHandler {
 
         if (preg_match_all($pattern, $text, $matches, PREG_SET_ORDER)) {
           foreach ($matches as $match) {
-            $tickets[$match[1]] =
-              pht('https://ghc.haskell.org/trac/ghc/ticket/'.$match[1]);
+            $tickets[$match[1]] = $match[1];
           }
         }
 
@@ -56,8 +55,12 @@ final class PhabricatorBotGhcTracHandler extends PhabricatorBotHandler {
             continue;
           }
 
+          $desc  = '#'.$ticket.': ';
+          $desc .= 'TODO FIXME - ';
+          $desc .= 'https://ghc.haskell.org/trac/ghc/ticket/'.$ticket;
+
           $this->recentlyMentioned[$target_name][$ticket] = time();
-          $this->replyTo($message, $ticket);
+          $this->replyTo($message, pht($desc));
         }
 
         break;
