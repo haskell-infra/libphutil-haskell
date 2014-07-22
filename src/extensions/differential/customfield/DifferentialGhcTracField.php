@@ -3,6 +3,8 @@
 final class DifferentialGhcTracField
   extends DifferentialStoredCustomField {
 
+  private $error;
+
   public function getFieldKey() {
     return 'differential:ghc-trac';
   }
