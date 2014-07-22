@@ -8,24 +8,29 @@ final class DifferentialGhcTracField
 
   private $error;
 
+  /* -- Core custom field descriptions -------------------------------------- */
   public function getFieldKey() {
     return 'differential:ghc-trac';
   }
 
   public function getFieldName() {
-    return pht('GHC Trac');
+    // Rendered in 'Config > Differential > differential.fields'
+    return pht('GHC Trac Issues');
   }
 
   public function getFieldDescription() {
+    // Rendered in 'Config > Differential > differential.fields'
     return pht('Lists associated GHC Trac issues.');
   }
 
+  /* -- Field properties ---------------------------------------------------- */
   public function canDisableField() {
+    // Rendered in 'Config > Differential > differential.fields'
     return true;
   }
 
   public function shouldAppearInPropertyView() {
-    return true;
+    return true; // NOTE: Only appears for 'rGHC', see below.
   }
 
   public function shouldAppearInEditView() {
@@ -48,15 +53,29 @@ final class DifferentialGhcTracField
     return true;
   }
 
+  // Possible alternative labels
   public function getCommitMessageLabels() {
     return array(
       'Trac',
       'Trac Issue',
       'Trac Issues',
+      'GHC Trac',
+      'GHC Trac Issue',
+      'GHC Trac Issues',
     );
   }
 
-  // Application transaction notifications
+  // Rendered when you run 'arc diff'
+  public function renderCommitMessageLabel() {
+    return 'GHC Trac Issues';
+  }
+
+  // Rendered in the UI when viewing a revision
+  public function renderPropertyViewLabel() {
+    return pht('Trac Issues');
+  }
+
+  /* -- Transactions -------------------------------------------------------- */
   public function shouldAppearInApplicationTransactions() {
     return true;
   }
@@ -131,7 +150,7 @@ final class DifferentialGhcTracField
     return $errors;
   }
 
-  // Storage handling
+  /* -- Storage ------------------------------------------------------------- */
   public function readValueFromRequest(AphrontRequest $request) {
     $this->setValue($request->getStrList($this->getFieldKey()));
     return $this;
@@ -150,14 +169,9 @@ final class DifferentialGhcTracField
     return $this;
   }
 
-  // Parse handling
+  /* -- Parsing commits ----------------------------------------------------- */
   public function parseValueFromCommitMessage($value) {
     return preg_split('/[\s,]+/', $value, $limit = -1, PREG_SPLIT_NO_EMPTY);
-  }
-
-  public function readValueFromCommitMessage($value) {
-    $this->setValue($value);
-    return $this;
   }
 
   public function validateCommitMessageValue($value) {
@@ -169,19 +183,20 @@ final class DifferentialGhcTracField
     }
   }
 
-  // Rendering, etc
+  public function readValueFromCommitMessage($value) {
+    $this->setValue($value);
+    return $this;
+  }
+
+  /* -- Rendering ----------------------------------------------------------- */
   public function renderEditControl(array $handles) {
     return id(new AphrontFormTextControl())
-      ->setLabel(pht('Trac Issues'))
+      ->setLabel(pht('GHC Trac Issues'))
       ->setCaption(
         pht('Example: %s', phutil_tag('tt', array(), '#7602, #2345')))
       ->setName($this->getFieldKey())
       ->setValue(implode(', ', nonempty($this->getValue(), array())))
       ->setError($this->error);
-  }
-
-  public function renderPropertyViewLabel() {
-    return pht('Trac Issues');
   }
 
   public function renderCommitMessageValue(array $handles) {
@@ -223,6 +238,7 @@ final class DifferentialGhcTracField
     }
   }
 
+  /* -- Private APIs -------------------------------------------------------- */
   private function isGhcRepository() {
     $repo = $this->getObject()->getRepository();
     if ($repo === null) {
