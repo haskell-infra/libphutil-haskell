@@ -158,7 +158,7 @@ final class DifferentialGhcTracField
           $errors[] = new PhabricatorApplicationTransactionValidationError(
             $type,
             pht('Invalid issue reference'),
-            pht('References to GHC Trac tickets may only take the form '
+            pht('References to GHC Trac tickets may only take the form '.
                 '`#XYZ` where `XYZ` may refer to an issue number.'),
             $xaction);
         }
