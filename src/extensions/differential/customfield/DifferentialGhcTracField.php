@@ -139,9 +139,9 @@ final class DifferentialGhcTracField
           $this->error = pht('Invalid');
           $errors[] = new PhabricatorApplicationTransactionValidationError(
             $type,
-            pht('Invalid issue'),
-            pht('References to trac tickets may only take the form `#XXXX` '.
-                'where XXXX are decimal values'),
+            pht('Invalid issue reference'),
+            pht('References to GHC Trac tickets may only take the form '
+                '`#XYZ` where `XYZ` may refer to an issue number.'),
             $xaction);
         }
       }
@@ -178,7 +178,8 @@ final class DifferentialGhcTracField
     foreach ($value as $id) {
       if (!preg_match('/#(\d+)/', $id)) {
         throw new DifferentialFieldValidationException(
-          pht("The ID '$id' is not in the form #<digits>."));
+          pht('References to GHC Trac issues may only take the form '.
+              '`#XYZ` where `XYZ` refers to an issue number.'));
       }
     }
   }
