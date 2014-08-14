@@ -3,7 +3,7 @@
 /**
  * Does a few random things for the #ghc channel on Freenode.
  */
-final class PhabricatorBotMiscHandler extends PhabricatorBotHandler {
+final class PhabricatorBotMiscGhcHandler extends PhabricatorBotHandler {
 
   public function receiveMessage(PhabricatorBotMessage $message) {
     switch ($message->getCommand()) {
