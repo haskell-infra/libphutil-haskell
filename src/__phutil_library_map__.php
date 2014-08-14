@@ -11,12 +11,14 @@ phutil_register_library_map(array(
   'class' => array(
     'DifferentialGhcTracField' => 'extensions/differential/customfield/DifferentialGhcTracField.php',
     'PhabricatorBotGhcTracHandler' => 'extensions/bot/handler/PhabricatorBotGhcTracHandler.php',
+    'PhabricatorBotMiscHandler' => 'extensions/bot/handler/PhabricatorBotMiscGhcHandler.php',
     'PhabricatorRemarkupGhcTracRule' => 'extensions/markup/engine/remarkup/markuprule/PhabricatorRemarkupGhcTracRule.php',
   ),
   'function' => array(),
   'xmap' => array(
     'DifferentialGhcTracField' => 'DifferentialStoredCustomField',
     'PhabricatorBotGhcTracHandler' => 'PhabricatorBotHandler',
+    'PhabricatorBotMiscHandler' => 'PhabricatorBotHandler',
     'PhabricatorRemarkupGhcTracRule' => 'PhabricatorRemarkupCustomInlineRule',
   ),
 ));
