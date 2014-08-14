@@ -15,7 +15,7 @@ final class PhabricatorBotMiscGhcHandler extends PhabricatorBotHandler {
           break;
         }
 
-        /* -- Case #1: Check for 'reportabug' and link to  Trac -- */
+        /* -- Case #1: Check for 'reportabug' and link to Trac -- */
         $matches = null;
         if (preg_match('/reportabug/i', $text, $matches)) {
           $this->replyTo($message,
