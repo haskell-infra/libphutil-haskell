@@ -10,10 +10,10 @@ final class PhabricatorBotMiscGhcHandler extends PhabricatorBotHandler {
       case 'MESSAGE':
         $target_name = $message->getTarget()->getName();
         $text        = $message->getBody();
-        if ($target_name !== '#ghc') {
+//        if ($target_name !== '#ghc') {
           // Don't do this in non-GHC channels, as it's probably annoying.
-          break;
-        }
+//          break;
+//        }
 
         /* -- Case #1: Check for 'reportabug' and link to  Trac -- */
         $matches = null;
