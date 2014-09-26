@@ -42,6 +42,11 @@ final class PhabricatorBotServerAdminLogHandler extends PhabricatorBotHandler {
         $target_name = $message->getTarget()->getName();
         $text        = $message->getBody();
 
+        if ($target_name !== '#haskell-infrastructure') {
+          // Don't do this in non-infra channels, as it's probably annoying.
+          break;
+        }
+
         /* -- Case #1: Check for 'log "foobar"' and add it. -- */
         $matches = null;
         if (preg_match("/$this->botName: log \"(.+)\"/i", $text, $matches)) {
