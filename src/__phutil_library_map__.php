@@ -12,6 +12,7 @@ phutil_register_library_map(array(
     'DifferentialGhcTracField' => 'extensions/differential/customfield/DifferentialGhcTracField.php',
     'PhabricatorBotGhcTracHandler' => 'extensions/bot/handler/PhabricatorBotGhcTracHandler.php',
     'PhabricatorBotMiscGhcHandler' => 'extensions/bot/handler/PhabricatorBotMiscGhcHandler.php',
+    'PhabricatorBotServerAdminLogHandler' => 'extensions/bot/handler/PhabricatorBotServerAdminLogHandler.php',
     'PhabricatorRemarkupGhcTracRule' => 'extensions/markup/engine/remarkup/markuprule/PhabricatorRemarkupGhcTracRule.php',
   ),
   'function' => array(),
@@ -19,6 +20,7 @@ phutil_register_library_map(array(
     'DifferentialGhcTracField' => 'DifferentialStoredCustomField',
     'PhabricatorBotGhcTracHandler' => 'PhabricatorBotHandler',
     'PhabricatorBotMiscGhcHandler' => 'PhabricatorBotHandler',
+    'PhabricatorBotServerAdminLogHandler' => 'PhabricatorBotHandler',
     'PhabricatorRemarkupGhcTracRule' => 'PhabricatorRemarkupCustomInlineRule',
   ),
 ));
