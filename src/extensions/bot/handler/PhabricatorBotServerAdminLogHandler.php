@@ -5,6 +5,10 @@
  *   <bot name>: log I did a thing
  * and logs it to the Phriction page:
  *   w/projects/haskell.org_infrastructure/server_admin_log/
+ *
+ * Also takes messages of the form:
+ *   <bot name: get log(s)
+ * and retrieves the last 3 log entries from the page.
  */
 final class PhabricatorBotServerAdminLogHandler extends PhabricatorBotHandler {
 
@@ -49,6 +53,13 @@ final class PhabricatorBotServerAdminLogHandler extends PhabricatorBotHandler {
       pht('Anything for you!'),
       pht('Look at you, being all productive!'),
       pht('You silly sysadmin!'),
+      pht('I will never forget!'),
+      pht('If you say so...'),
+      pht('Roger - the NSA has been notified.'),
+      pht('GATTACA!'), // Rafi ftw
+      pht('k'),
+      pht('I like the cut of that jib, pal!'),
+      pht('LIES'),
     );
     return $affirmatives[array_rand($affirmatives)];
   }
