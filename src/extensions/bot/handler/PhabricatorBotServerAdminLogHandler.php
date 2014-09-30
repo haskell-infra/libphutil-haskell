@@ -91,6 +91,7 @@ final class PhabricatorBotServerAdminLogHandler extends PhabricatorBotHandler {
         $matches = null;
         if (preg_match("/$this->botName: log \"(.+)\"/i", $text, $matches)) {
           $today = date('Y-m-d');
+          $timestamp = date('H:i T');
           $date = null;
           $raw_lines = explode("\n", $this->getWikiPageContent());
 
@@ -115,7 +116,7 @@ final class PhabricatorBotServerAdminLogHandler extends PhabricatorBotHandler {
           }
 
           $sender_nick = $this->linkIrcUser($message->getSender()->getName());
-          $msg = ' - '.$sender_nick.': '.$matches[1];
+          $msg = ' - **'.$timestamp.'** '.$sender_nick.': '.$matches[1];
           array_splice($raw_lines, $linenum, 0, $msg);
 
           // Pedantic formatting silliness - add a newline after the new
