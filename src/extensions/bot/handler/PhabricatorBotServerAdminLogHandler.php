@@ -67,6 +67,7 @@ final class PhabricatorBotServerAdminLogHandler extends PhabricatorBotHandler {
   private function linkIrcUser($nickname) {
     $nick_map = array(
       'thoughtpolice' => 'austin',
+      'sclv'          => 'gershomb',
     );
 
     if (array_key_exists($nickname, $nick_map)) {
