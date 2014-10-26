@@ -177,6 +177,11 @@ final class DifferentialGhcTracField
 
   /* -- Parsing commits ----------------------------------------------------- */
   public function parseValueFromCommitMessage($value) {
+    // return early if the user didn't provide anything
+    if (!strlen($value)) {
+      return array();
+    }
+
     return preg_split('/[\s,]+/', $value, $limit = -1, PREG_SPLIT_NO_EMPTY);
   }
 
