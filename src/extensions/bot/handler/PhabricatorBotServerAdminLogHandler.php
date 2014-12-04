@@ -68,6 +68,8 @@ final class PhabricatorBotServerAdminLogHandler extends PhabricatorBotHandler {
     $nick_map = array(
       'thoughtpolice' => 'austin',
       'sclv'          => 'gershomb',
+      'dcoutts'       => 'duncan',
+      'dcoutts_'      => 'duncan',
     );
 
     if (array_key_exists($nickname, $nick_map)) {
