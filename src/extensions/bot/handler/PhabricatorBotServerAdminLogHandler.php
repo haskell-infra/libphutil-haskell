@@ -17,7 +17,7 @@ final class PhabricatorBotServerAdminLogHandler extends PhabricatorBotHandler {
    */
   private $botName   = 'phaskell';
   private $wikiTitle = 'Server Admin Log';
-  private $wikiSlug  = 'projects/haskell.org_infrastructure/server_admin_log';
+  private $wikiSlug  = 'infrastructure/server-admin-log';
   private $numLogs   = 3;
 
   private function getWikiPageContent() {
