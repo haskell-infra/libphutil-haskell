@@ -1,3 +1,3 @@
 <?php
 
-phutil_register_library('libphutils-haskell', __FILE__);
+phutil_register_library('libphutil-haskell', __FILE__);
