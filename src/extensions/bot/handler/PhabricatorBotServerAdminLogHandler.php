@@ -92,7 +92,7 @@ final class PhabricatorBotServerAdminLogHandler extends PhabricatorBotHandler {
 
         /* -- Case #1: Check for 'log "foobar"' and add it. -- */
         $matches = null;
-        if (preg_match("/$this->botName: log \"(.+)\"/i", $text, $matches)) {
+        if (preg_match("/^$this->botName: log \"(.+)\"/i", $text, $matches)) {
           $today = date('Y-m-d');
           $timestamp = date('H:i T');
           $date = null;
@@ -136,7 +136,7 @@ final class PhabricatorBotServerAdminLogHandler extends PhabricatorBotHandler {
 
         /* -- Case #2: Check for 'get log' and get the lastest entries. --  */
         $matches = null;
-        if (preg_match("/$this->botName: get log(s?)/i", $text, $matches)) {
+        if (preg_match("/^$this->botName: get log(s?)/i", $text, $matches)) {
           $events = array();
           $raw_lines = explode("\n", $this->getWikiPageContent());
           $date = null;
