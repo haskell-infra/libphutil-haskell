@@ -14,8 +14,6 @@ phutil_register_library_map(array(
     'PhabricatorBotMiscGhcHandler' => 'extensions/bot/handler/PhabricatorBotMiscGhcHandler.php',
     'PhabricatorBotServerAdminLogHandler' => 'extensions/bot/handler/PhabricatorBotServerAdminLogHandler.php',
     'PhabricatorRemarkupGhcTracRule' => 'extensions/markup/engine/remarkup/markuprule/PhabricatorRemarkupGhcTracRule.php',
-    'SetTaskEditPolicyHeraldCustomAction' => 'extensions/herald/customaction/SetTaskEditPolicyHeraldCustomAction.php',
-    'SetTaskViewPolicyHeraldCustomAction' => 'extensions/herald/customaction/SetTaskViewPolicyHeraldCustomAction.php',
   ),
   'function' => array(),
   'xmap' => array(
@@ -24,7 +22,5 @@ phutil_register_library_map(array(
     'PhabricatorBotMiscGhcHandler' => 'PhabricatorBotHandler',
     'PhabricatorBotServerAdminLogHandler' => 'PhabricatorBotHandler',
     'PhabricatorRemarkupGhcTracRule' => 'PhabricatorRemarkupCustomInlineRule',
-    'SetTaskEditPolicyHeraldCustomAction' => 'HeraldCustomAction',
-    'SetTaskViewPolicyHeraldCustomAction' => 'HeraldCustomAction',
   ),
 ));
