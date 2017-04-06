@@ -26,9 +26,16 @@ final class DifferentialGhcTracCommitMessageField
   }
 
   public function readFieldValueFromObject(DifferentialRevision $revision) {
+    if ($revision == null) {
+      return [];
+    }
     $custom_key = $this->getCustomFieldKey();
-    $value = phutil_json_decode($this->readCustomFieldValue($revision, $custom_key));
-    if ($value === null) {
+    $value1 = $this->readCustomFieldValue($revision, $custom_key);
+    if ($value1 == 'null') {
+        return [];
+    }
+    $value = phutil_json_decode($value1);
+    if ($value == null) {
       return [];
     }
     return $value;
@@ -42,7 +49,7 @@ final class DifferentialGhcTracCommitMessageField
       'Trac Issue',
       'Trac Issues',
       'GHC Trac',
-      'GHC Trac Issue',
+      'GHC Trac Issue'
     );
   }
 
@@ -56,7 +63,7 @@ final class DifferentialGhcTracCommitMessageField
   }
 
   public function validateCommitMessageValue(array $value) {
-    printf('%s', $value);
+    printf("%s", $value);
     foreach ($value as $id) {
       if (!preg_match('/#(\d+)/', $id)) {
         throw new DifferentialFieldValidationException(
@@ -66,11 +73,11 @@ final class DifferentialGhcTracCommitMessageField
     }
   }
 
-  public function renderFieldValue(array $values) {
+  public function renderFieldValue($values) {
     return implode(', ', $values);
   }
 
-  public function readFieldValueFromConduit(array $value) {
+  public function readFieldValueFromConduit($value) {
     return $value;
   }
 
